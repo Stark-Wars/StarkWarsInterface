@@ -1,0 +1,561 @@
+[
+  {
+    "name": "Uint256",
+    "size": 2,
+    "type": "struct",
+    "members": [
+      {
+        "name": "low",
+        "type": "felt",
+        "offset": 0
+      },
+      {
+        "name": "high",
+        "type": "felt",
+        "offset": 1
+      }
+    ]
+  },
+  {
+    "name": "OrderKey",
+    "size": 10,
+    "type": "struct",
+    "members": [
+      {
+        "name": "owner",
+        "type": "felt",
+        "offset": 0
+      },
+      {
+        "name": "salt",
+        "type": "felt",
+        "offset": 1
+      },
+      {
+        "name": "sellAsset",
+        "type": "Asset",
+        "offset": 2
+      },
+      {
+        "name": "buyAsset",
+        "type": "Asset",
+        "offset": 6
+      }
+    ]
+  },
+  {
+    "name": "Asset",
+    "size": 4,
+    "type": "struct",
+    "members": [
+      {
+        "name": "token",
+        "type": "felt",
+        "offset": 0
+      },
+      {
+        "name": "tokenId",
+        "type": "Uint256",
+        "offset": 1
+      },
+      {
+        "name": "assetType",
+        "type": "felt",
+        "offset": 3
+      }
+    ]
+  },
+  {
+    "name": "Order",
+    "size": 16,
+    "type": "struct",
+    "members": [
+      {
+        "name": "key",
+        "type": "OrderKey",
+        "offset": 0
+      },
+      {
+        "name": "selling",
+        "type": "Uint256",
+        "offset": 10
+      },
+      {
+        "name": "buying",
+        "type": "Uint256",
+        "offset": 12
+      },
+      {
+        "name": "sellerFee",
+        "type": "Uint256",
+        "offset": 14
+      }
+    ]
+  },
+  {
+    "name": "Sig",
+    "size": 2,
+    "type": "struct",
+    "members": [
+      {
+        "name": "r",
+        "type": "felt",
+        "offset": 0
+      },
+      {
+        "name": "s",
+        "type": "felt",
+        "offset": 1
+      }
+    ]
+  },
+  {
+    "data": [
+      {
+        "name": "previousOwner",
+        "type": "felt"
+      },
+      {
+        "name": "newOwner",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "name": "constructor",
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "felt"
+      },
+      {
+        "name": "_beneficiary",
+        "type": "felt"
+      },
+      {
+        "name": "_buyerFeeSigner",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "owner",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "owner",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "transferOwnership",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "newOwner",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "renounceOwnership",
+    "type": "function",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "data": [
+      {
+        "name": "sellToken",
+        "type": "felt"
+      },
+      {
+        "name": "sellTokenId",
+        "type": "Uint256"
+      },
+      {
+        "name": "sellValue",
+        "type": "Uint256"
+      },
+      {
+        "name": "owner",
+        "type": "felt"
+      },
+      {
+        "name": "buyToken",
+        "type": "felt"
+      },
+      {
+        "name": "buyTokenId",
+        "type": "Uint256"
+      },
+      {
+        "name": "buyValue",
+        "type": "Uint256"
+      },
+      {
+        "name": "buyer",
+        "type": "felt"
+      },
+      {
+        "name": "amount",
+        "type": "Uint256"
+      },
+      {
+        "name": "salt",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "Buy",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "sellToken",
+        "type": "felt"
+      },
+      {
+        "name": "sellTokenId",
+        "type": "Uint256"
+      },
+      {
+        "name": "owner",
+        "type": "felt"
+      },
+      {
+        "name": "buyToken",
+        "type": "felt"
+      },
+      {
+        "name": "buyTokenId",
+        "type": "Uint256"
+      },
+      {
+        "name": "salt",
+        "type": "felt"
+      }
+    ],
+    "keys": [],
+    "name": "Cancel",
+    "type": "event"
+  },
+  {
+    "name": "hash_key",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "key",
+        "type": "OrderKey"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "prepareMessage",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "order",
+        "type": "Order"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "prepareBuyerFeeMessage",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "order",
+        "type": "Order"
+      },
+      {
+        "name": "fee",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "validateOrderSig",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "order",
+        "type": "Order"
+      },
+      {
+        "name": "orderSignature_len",
+        "type": "felt"
+      },
+      {
+        "name": "orderSignature",
+        "type": "felt*"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "view"
+  },
+  {
+    "name": "validateBuyerFeeSig",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "order",
+        "type": "Order"
+      },
+      {
+        "name": "buyerFee",
+        "type": "Uint256"
+      },
+      {
+        "name": "sig",
+        "type": "Sig"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "getCompleted",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "key",
+        "type": "OrderKey"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "getBeneficiary",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "getBuyerFeeSigner",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "subFee",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "value",
+        "type": "Uint256"
+      },
+      {
+        "name": "fee",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "newValue",
+        "type": "Uint256"
+      },
+      {
+        "name": "realFee",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "getFeeSide",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "sellType",
+        "type": "felt"
+      },
+      {
+        "name": "buyType",
+        "type": "felt"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "FeeSide",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "uint256_bp",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "value",
+        "type": "Uint256"
+      },
+      {
+        "name": "bpValue",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "subFeeInBp",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "value",
+        "type": "Uint256"
+      },
+      {
+        "name": "total",
+        "type": "Uint256"
+      },
+      {
+        "name": "feeInBp",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "newValue",
+        "type": "Uint256"
+      },
+      {
+        "name": "realFee",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "is_eq",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "a",
+        "type": "felt"
+      },
+      {
+        "name": "b",
+        "type": "felt"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      },
+      {
+        "name": "res2",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "exchange",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "order",
+        "type": "Order"
+      },
+      {
+        "name": "orderSignature_len",
+        "type": "felt"
+      },
+      {
+        "name": "orderSignature",
+        "type": "felt*"
+      },
+      {
+        "name": "buyerFee",
+        "type": "Uint256"
+      },
+      {
+        "name": "buyerFeeSig",
+        "type": "Sig"
+      },
+      {
+        "name": "amount",
+        "type": "Uint256"
+      },
+      {
+        "name": "buyer",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "cancel",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "key",
+        "type": "OrderKey"
+      }
+    ],
+    "outputs": []
+  }
+]
